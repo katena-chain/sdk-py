@@ -1,0 +1,12 @@
+# IDEs
+/.idea
+/.vscode
+
+# Python
+/venv
+/.eggs
+/dist
+/build
+/katena_chain_sdk_python.egg-info
+*.pyc
+*.pyo
