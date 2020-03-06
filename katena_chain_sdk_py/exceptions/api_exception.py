@@ -10,17 +10,17 @@ from katena_chain_sdk_py.serializer.base_schema import BaseSchema
 
 
 class ApiException(Exception):
-    """ ApiException allows to wrap API errors. """
+    # ApiException allows to wrap API errors.
 
     def __init__(self, code: int, message: str):
-        """ ApiException constructor. """
         message_formatted = 'api error:\nCode : %s\nMessage : %s' % (code, message)
         super().__init__(message_formatted)
         self.code = code
 
 
 class ApiExceptionSchema(BaseSchema):
-    """ ApiExceptionSchema allows to serialize and deserialize ApiException. """
+    # ApiExceptionSchema allows to serialize and deserialize ApiException.
+
     __model__ = ApiException
     code = fields.Int()
     message = fields.Str()

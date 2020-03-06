@@ -11,10 +11,9 @@ from katena_chain_sdk_py.crypto.ed25519.public_key import PublicKey
 
 
 class PrivateKey(BaseKey):
-    """ PrivateKey is an Ed25519 private key wrapper (64 bytes). """
+    # PrivateKey is an Ed25519 private key wrapper (64 bytes).
 
     def __init__(self, key: bytes):
-        """ PrivateKey constructor. """
         super().__init__(key)
         self.public_key = PublicKey(self.get_key()[32:])
 
@@ -22,6 +21,5 @@ class PrivateKey(BaseKey):
         return self.public_key
 
     def sign(self, message: bytes) -> bytes:
-        """ Accepts a message and returns its corresponding Ed25519 signature. """
+        # Accepts a message and returns its corresponding Ed25519 signature.
         return SigningKey(self.get_key()[:32]).sign(message).signature
-

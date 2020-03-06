@@ -1,0 +1,41 @@
+# Blockchain communication config
+blockchain:
+  api_url:    "https://nodes.test.katena.transchain.io/api/v1"
+  chain_id:   "katena-chain-test"
+  tx_per_page: 10
+
+# On chain samples data
+on_chain:
+  # Common blockchain's transactions infos
+  tx:
+    uuid: "2075c941-6876-405b-87d5-13791c0dc53a"
+  # Dummy company abcdef Corp.
+  company:
+    bcid: "abcdef"
+    # Dummy users with their keys to sign transactions
+    ed25519_keys:
+      - alice:
+          private_key: "7C67DeoLnhI6jvsp3eMksU2Z6uzj8sqZbpgwZqfIyuCZbfoPcitCiCsSp2EzCfkY52Mx58xDOyQLb1OhC7cL5A=="
+          public_key: "mW36D3IrQogrEqdhMwn5GOdjMefMQzskC29ToQu3C+Q="
+      - bob:
+          private_key: "3awdq5HUZ2fgV2fM6sbV1yJKIvuTV2OZ5AMfes4ftHUiOpqsicnv+67vLfKLwWR/Bh/hNbJaq6fziXoh+oqxRQ=="
+          public_key: "IjqarInJ7/uu7y3yi8FkfwYf4TWyWqun84l6IfqKsUU="
+      - carla:
+          private_key: "p2T1gRu2HHdhcsTVEk6VwpJRkLahvnLsi9miSS1Yg4PSk6jrTRFvtoPzi2z6yn+Ul9+niTHBUvbskbQ2TkDxmQ=="
+          public_key: "0pOo600Rb7aD84ts+sp/lJffp4kxwVL27JG0Nk5A8Zk="
+
+# Off chain samples data
+off_chain:
+  # Dummy users with their keys to sign off-chain data
+  ed25519_keys:
+    - david:
+        private_key: "aGya1W2C2bfu1bMA+wJ8kbpZePjKprv4t93EhX+durqOksFaT9pC0054jFeKYFyGzi+1gCp1NZAeCsG/yQEJWA=="
+        public_key: "jpLBWk/aQtNOeIxXimBchs4vtYAqdTWQHgrBv8kBCVg="
+  # Dummy users with their keys to seal/open nacl boxes to share secret information
+  x25519_keys:
+    - alice:
+        private_key: "nyCzhimWnTQifh6ucXLuJwOz3RgiBpo33LcX1NjMAsP1ZkQcdlDq64lTwxaDx0lq6LCQAUeYywyMUtfsvTUEeQ=="
+        public_key: "9WZEHHZQ6uuJU8MWg8dJauiwkAFHmMsMjFLX7L01BHk="
+    - bob:
+        private_key: "quGBP8awD/J3hjSvwGD/sZRcMDks8DPz9Vw0HD4+zecqJP0ojBoc4wQtyq08ywxUksTkdz0/rQNkOsEZBwqWTw=="
+        public_key: "KiT9KIwaHOMELcqtPMsMVJLE5Hc9P60DZDrBGQcKlk8="

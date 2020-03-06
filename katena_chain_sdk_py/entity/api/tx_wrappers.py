@@ -12,10 +12,9 @@ from katena_chain_sdk_py.serializer.base_schema import BaseSchema
 
 
 class TxWrappers:
-    """ TxWrappers wraps a list of TxWrapper with the total txs available. """
+    # TxWrappers wraps a list of TxWrapper with the total txs available.
 
     def __init__(self, txs: List[TxWrapper], total: int):
-        """ TxWrappers constructor. """
         self.txs = txs
         self.total = total
 
@@ -27,7 +26,8 @@ class TxWrappers:
 
 
 class TxWrappersSchema(BaseSchema):
-    """ TxWrappersSchema allows to serialize and deserialize TxWrapper. """
+    # TxWrappersSchema allows to serialize and deserialize TxWrapper.
+
     __model__ = TxWrappers
     txs = fields.List(fields.Nested(TxWrapperSchema))
     total = fields.Int()

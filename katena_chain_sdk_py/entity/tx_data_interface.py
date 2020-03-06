@@ -9,20 +9,12 @@ import abc
 
 
 class TxData(abc.ABC):
-    """ TxData interface defines the methods a concrete TxData must implement. """
-
-    @abc.abstractmethod
-    def get_type(self) -> str:
-        pass
+    # TxData interface defines the methods a concrete TxData must implement.
 
     @abc.abstractmethod
     def get_id(self) -> str:
         pass
 
     @abc.abstractmethod
-    def get_namespace(self) -> str:
-        pass
-
-    @abc.abstractmethod
-    def get_sub_namespace(self) -> str:
+    def get_type(self) -> str:
         pass

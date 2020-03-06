@@ -10,7 +10,7 @@ from base64 import b64encode, b64decode
 
 
 class BytesField(fields.Field):
-    """ BytesField allows to serialize and deserialize a bytes object. """
+    # BytesField allows to serialize and deserialize a bytes object.
 
     def _serialize(self, value: bytes, attr, obj, **kwargs) -> str:
         if value is None:

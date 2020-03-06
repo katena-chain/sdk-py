@@ -12,7 +12,7 @@ RFC3339_MICRO_ZERO_PADDED = "%Y-%m-%dT%H:%M:%S.%fZ"
 
 
 class UTCDatetimeField(fields.Field):
-    """ UTCDatetimeField allows to serialize and deserialize a datetime object. """
+    # UTCDatetimeField allows to serialize and deserialize a datetime object.
 
     def _serialize(self, value: datetime, attr, obj, **kwargs) -> str:
         if value is None:

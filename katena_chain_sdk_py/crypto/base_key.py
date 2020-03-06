@@ -10,10 +10,9 @@ from katena_chain_sdk_py.serializer.bytes_field import BytesField
 
 
 class BaseKey:
-    """ BaseKey holds a string key. """
+    # BaseKey holds a string key.
 
     def __init__(self, key: bytes):
-        """ BaseKey constructor. """
         self.key = key
 
     def get_key(self) -> bytes:
@@ -21,7 +20,7 @@ class BaseKey:
 
 
 class KeyField(BytesField):
-    """ KeyField allows to serialize and deserialize a BaseKey. """
+    # KeyField allows to serialize and deserialize a BaseKey.
 
     def __init__(self, model: typing.Type[BaseKey], **metadata):
         self.__model__ = model

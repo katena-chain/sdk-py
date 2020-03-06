@@ -12,10 +12,9 @@ from katena_chain_sdk_py.crypto.nacl.public_key import PublicKey
 
 
 class PrivateKey(BaseKey):
-    """ PrivateKey is an X25519 private key wrapper (64 bytes). """
+    # PrivateKey is an X25519 private key wrapper (64 bytes).
 
     def __init__(self, key: bytes):
-        """ PrivateKey constructor. """
         super().__init__(key)
         self.public_key = PublicKey(self.get_key()[32:])
 
@@ -23,13 +22,13 @@ class PrivateKey(BaseKey):
         return self.public_key
 
     def seal(self, message: bytes, recipient_public_key: PublicKey) -> (bytes, bytes):
-        """ Encrypts a plain text message decipherable afterwards by the recipient private key. """
+        # Encrypts a plain text message decipherable afterwards by the recipient private key.
         box = Box(BoxPrivateKey(self.get_key()[:32]), BoxPublicKey(recipient_public_key.get_key()))
         sealed_box = box.encrypt(message)
         return sealed_box.ciphertext, sealed_box.nonce
 
     def open(self, encrypted_message: bytes, sender_public_key: PublicKey, nonce: bytes) -> bytes:
-        """ Decrypts an encrypted message with the appropriate sender information. """
+        # Decrypts an encrypted message with the appropriate sender information.
         box = Box(BoxPrivateKey(self.get_key()[:32]), BoxPublicKey(sender_public_key.get_key()))
         try:
             return box.decrypt(encrypted_message, nonce)

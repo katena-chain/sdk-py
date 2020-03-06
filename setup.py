@@ -9,12 +9,12 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="katena_chain_sdk_py",
-    version="1.0.1",
+    version="1.1.0",
     description="A SDK client for Katena Chain by Transchain",
     long_description=README,
     long_description_content_type="text/markdown",
     url="https://github.com/katena-chain/sdk-py",
-    author="TransChain",
+    author="Transchain",
     author_email="devops@transchain.fr",
     license="Apache-2.0",
     classifiers=[

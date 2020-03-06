@@ -17,10 +17,9 @@ from katena_chain_sdk_py.crypto.base_key import KeyField
 
 
 class Tx:
-    """ Tx wraps a tx data with its signature information and a nonce time to avoid replay attacks. """
+    # Tx wraps a tx data with its signature information and a nonce time to avoid replay attacks.
 
     def __init__(self, nonce_time: datetime, data: TxData, signer: PublicKey, signature: bytes):
-        """ Tx constructor. """
         self.nonce_time = nonce_time
         self.data = data
         self.signer = signer
@@ -40,7 +39,8 @@ class Tx:
 
 
 class TxSchema(BaseSchema):
-    """ TxSchema allows to serialize and deserialize Tx. """
+    # TxSchema allows to serialize and deserialize Tx.
+
     __model__ = Tx
     signer = KeyField(PublicKey)
     signature = BytesField()

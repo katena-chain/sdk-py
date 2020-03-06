@@ -9,8 +9,7 @@ from katena_chain_sdk_py.crypto.base_key import BaseKey
 
 
 class PublicKey(BaseKey):
-    """ PublicKey is an X25519 public key wrapper (32 bytes). """
+    # PublicKey is an X25519 public key wrapper (32 bytes).
 
     def __init__(self, key: bytes):
-        """ PublicKey constructor. """
         super().__init__(key)

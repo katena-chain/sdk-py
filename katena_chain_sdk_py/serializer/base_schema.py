@@ -10,19 +10,19 @@ import typing
 
 
 class BaseSchema(Schema):
-    """ BaseSchema wraps a marshmallow Schema to configure marshalling and unmarshalling operation. """
+    # BaseSchema wraps a marshmallow Schema to configure marshalling and unmarshalling operation.
     __model__ = None
 
     class Meta:
         ordered = True
 
     def dumps(self, obj: typing.Any, *args, many: bool = None, **kwargs) -> str:
-        """ Redefines the dumps method to avoid space in separators. """
+        # Redefines the dumps method to avoid space in separators.
         return super().dumps(obj, *args, many=many, separators=(',', ':'), **kwargs)
 
     @post_load
     def make_model(self, data, **kwargs) -> typing.Any:
-        """ Post load hook to instantiate a corresponding Model if defined. """
+        # Post load hook to instantiate a corresponding Model if defined.
         if self.__model__ is not None:
             return self.__model__(**data)
         return data

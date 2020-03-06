@@ -15,8 +15,8 @@ class TxStatus:
     1: PENDING
     >1: ERROR WITH CORRESPONDING CODE
     """
+
     def __init__(self, code: int, message: str):
-        """ TxStatus constructor. """
         self.code = code
         self.message = message
 
@@ -28,7 +28,8 @@ class TxStatus:
 
 
 class TxStatusSchema(BaseSchema):
-    """ TxStatusSchema allows to serialize and deserialize a TxStatus. """
+    # TxStatusSchema allows to serialize and deserialize a TxStatus.
+
     __model__ = TxStatus
     code = fields.Int()
     message = fields.Str()

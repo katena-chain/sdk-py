@@ -7,11 +7,13 @@ LICENSE file in the root directory of this source tree.
 
 import typing
 from marshmallow import types
-from katena_chain_sdk_py.entity.certify.common import get_type_certificate_raw_v1, get_type_certificate_ed25519_v1, \
-    get_type_secret_nacl_box_v1
 from katena_chain_sdk_py.serializer.base_schema import BaseSchema
 from katena_chain_sdk_py.entity.certify.certificate import CertificateRawV1Schema, CertificateEd25519V1Schema
+from katena_chain_sdk_py.entity.certify.common import get_type_certificate_raw_v1, get_type_certificate_ed25519_v1, \
+    get_type_secret_nacl_box_v1
 from katena_chain_sdk_py.entity.certify.secret import SecretNaclBoxV1Schema
+from katena_chain_sdk_py.entity.account.keys import KeyCreateV1Schema, KeyRevokeV1Schema
+from katena_chain_sdk_py.entity.account.common import get_type_key_create_v1, get_type_key_revoke_v1
 
 
 def get_available_types() -> typing.Dict[str, BaseSchema]:
@@ -19,11 +21,13 @@ def get_available_types() -> typing.Dict[str, BaseSchema]:
         get_type_certificate_raw_v1(): CertificateRawV1Schema(),
         get_type_certificate_ed25519_v1(): CertificateEd25519V1Schema(),
         get_type_secret_nacl_box_v1(): SecretNaclBoxV1Schema(),
+        get_type_key_create_v1(): KeyCreateV1Schema(),
+        get_type_key_revoke_v1(): KeyRevokeV1Schema(),
     }
 
 
 class TxDataSchema(BaseSchema):
-    """ TxDataSchema allows to serialize and deserialize TxData. """
+    # TxDataSchema allows to serialize and deserialize TxData.
 
     def dump(self, obj: typing.Any, *, many: bool = None) -> dict:
         if hasattr(obj, "get_type"):

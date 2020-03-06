@@ -5,31 +5,36 @@ This source code is licensed under the Apache 2.0 license found in the
 LICENSE file in the root directory of this source tree.
 """
 
+from base64 import b64encode
 from katena_chain_sdk_py.entity.certify.common import get_type_certificate_raw_v1, get_type_certificate_ed25519_v1
 from katena_chain_sdk_py.exceptions.api_exception import ApiException
 from katena_chain_sdk_py.exceptions.client_exception import ClientException
 from katena_chain_sdk_py.transactor import Transactor
-from base64 import b64encode
+from examples.common.settings import Settings
 
 
 def main():
-    # Alice wants to retrieve a certificate history
+    # Alice wants to retrieve certificates
+
+    # Load yaml configuration file
+    settings = Settings('settings.yml')
 
     # Common Katena network information
-    api_url = "https://api.test.katena.transchain.io/api/v1"
+    api_url = settings.blockchain.api_url
 
     # Alice Katena network information
-    alice_company_chain_id = "abcdef"
+    company_bcid = settings.on_chain.company.bcid
 
     # Create a Katena API helper
     transactor = Transactor(api_url)
 
     # Certificate uuid Alice wants to retrieve
-    certificate_uuid = "2075c941-6876-405b-87d5-13791c0dc53a"
+    certificate_uuid = settings.on_chain.tx.uuid
 
     try:
-        # Retrieve a version 1 of a certificate from Katena
-        tx_wrappers = transactor.retrieve_certificates_history(alice_company_chain_id, certificate_uuid)
+        # Retrieve version 1 of certificates from Katena
+        tx_wrappers = transactor.retrieve_certificates(company_bcid, certificate_uuid, 1,
+                                                       settings.blockchain.tx_per_page)
 
         for tx_wrapper in tx_wrappers.get_txs():
             tx_data = tx_wrapper.get_tx().get_data()

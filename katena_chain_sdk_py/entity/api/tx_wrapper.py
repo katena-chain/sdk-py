@@ -12,10 +12,9 @@ from katena_chain_sdk_py.serializer.base_schema import BaseSchema
 
 
 class TxWrapper:
-    """ TxWrapper wraps a tx and its status. """
+    # TxWrapper wraps a tx and its status.
 
     def __init__(self, tx: Tx, status: TxStatus):
-        """ TxWrapper constructor. """
         self.tx = tx
         self.status = status
 
@@ -27,7 +26,8 @@ class TxWrapper:
 
 
 class TxWrapperSchema(BaseSchema):
-    """ TxWrapperSchema allows to serialize and deserialize TxWrapper. """
+    # TxWrapperSchema allows to serialize and deserialize TxWrapper.
+
     __model__ = TxWrapper
     tx = fields.Nested(TxSchema)
     status = fields.Nested(TxStatusSchema)
