@@ -1,67 +1,66 @@
-import yaml
-import os
-from katena_chain_sdk_py.utils.common import DEFAULT_PER_PAGE_PARAM
+"""
+Copyright (c) 2019, TransChain.
+
+This source code is licensed under the Apache 2.0 license found in the
+LICENSE file in the root directory of this source tree.
+"""
+
+
+class Key:
+    def __init__(self, id, private_key_str):
+        self.id = id
+        self.private_key_str = private_key_str
+
+
+class KeyPair:
+    def __init__(self, private_key_str, public_key_str):
+        self.private_key_str = private_key_str
+        self.public_key_str = public_key_str
 
 
 class Settings:
-    # Settings holds the yaml file configuration values
-    def __init__(self, file):
-        script_dir = os.path.dirname(__file__)
+    # API url to dialogue with a Katena network
+    api_url = "https://nodes.test.katena.transchain.io/api/v1"
 
-        with open(os.path.join(script_dir, file), 'r') as yamlFile:
-            yml_dict = yaml.safe_load(yamlFile)
+    # Katena network id
+    chain_id = "katena-chain-test"
 
-        self.blockchain = Blockchain(yml_dict['blockchain'])
-        self.on_chain = OnChain(yml_dict['on_chain'])
-        self.off_chain = OffChain(yml_dict['off_chain'])
+    # Number of transactions the API should return
+    tx_per_page = 10
 
+    # Sample transaction ids used in examples
+    # If one id is already used on the Katena test network, feel free to change these values
+    certificate_id = "ce492f92-a529-40c1-91e9-2af71e74ebea"
+    secret_id = "3b1cfd5f-d0fe-478c-ba30-17817e29611e"
+    key_id = "9941bc28-4033-4d5a-a337-76b640223de2"
 
-class Blockchain:
-    # Blockchain communication config
-    def __init__(self, yml_dict):
-        self.api_url = yml_dict['api_url']
-        self.chain_id = yml_dict['chain_id']
-        if 'tx_per_page' in yml_dict:
-            self.tx_per_page = yml_dict['tx_per_page']
-        else:
-            self.tx_per_page = DEFAULT_PER_PAGE_PARAM
+    # Dummy company committed on chain
+    class Company:
+        # Unique company identifier on a Katena network
+        bcid = "abcdef"
 
+        # Dummy users with their keys to sign transactions
+        ed25519_keys = {
+            "alice": Key("36b72ca9-fd58-44aa-b90d-5a855276ff82",
+                         "7C67DeoLnhI6jvsp3eMksU2Z6uzj8sqZbpgwZqfIyuCZbfoPcitCiCsSp2EzCfkY52Mx58xDOyQLb1OhC7cL5A=="),
+            "bob": Key("7cf17643-5567-4dfa-9b0c-9cd19c45177a",
+                       "3awdq5HUZ2fgV2fM6sbV1yJKIvuTV2OZ5AMfes4ftHUiOpqsicnv+67vLfKLwWR/Bh/hNbJaq6fziXoh+oqxRQ=="),
+            "carla": Key("236f8028-bb87-4c19-b6e0-cbcaea35e764",
+                         "p2T1gRu2HHdhcsTVEk6VwpJRkLahvnLsi9miSS1Yg4PSk6jrTRFvtoPzi2z6yn+Ul9+niTHBUvbskbQ2TkDxmQ=="),
+        }
 
-class OnChain:
-    # On chain samples data
-    def __init__(self, yml_dict):
-        self.tx = Tx(yml_dict['tx'])
-        self.company = Company(yml_dict['company'])
+    # Off chain samples data to do off chain operations
+    class OffChain:
+        # Dummy users with their keys to sign off-chain data
+        ed25519_keys = {
+            "david": KeyPair("aGya1W2C2bfu1bMA+wJ8kbpZePjKprv4t93EhX+durqOksFaT9pC0054jFeKYFyGzi+1gCp1NZAeCsG/yQEJWA==",
+                             "jpLBWk/aQtNOeIxXimBchs4vtYAqdTWQHgrBv8kBCVg="),
+        }
 
-
-class Tx:
-    # Common blockchain's transactions infos
-    def __init__(self, yml_dict):
-        self.uuid = yml_dict['uuid']
-
-
-class Company:
-    # Dummy company abcdef Corp.
-    def __init__(self, yml_dict):
-        self.bcid = yml_dict['bcid']
-        self.ed25519_keys = KeysList(yml_dict['ed25519_keys'])
-
-
-class OffChain:
-    # Off chain samples data
-    def __init__(self, yml_dict):
-        self.ed25519_keys = KeysList(yml_dict['ed25519_keys'])
-        self.x25519_keys = KeysList(yml_dict['x25519_keys'])
-
-
-class KeysList:
-    def __init__(self, yml_dict):
-        for item in yml_dict:
-            keys_list = list(item.keys())
-            setattr(self, keys_list[0], Keys(item[keys_list[0]]))
-
-
-class Keys:
-    def __init__(self, yml_dict):
-        self.private_key = yml_dict['private_key']
-        self.public_key = yml_dict['public_key']
+        # Dummy users with their keys to seal/open nacl boxes to share secret information
+        x25519_keys = {
+            "alice": KeyPair("nyCzhimWnTQifh6ucXLuJwOz3RgiBpo33LcX1NjMAsP1ZkQcdlDq64lTwxaDx0lq6LCQAUeYywyMUtfsvTUEeQ==",
+                             "9WZEHHZQ6uuJU8MWg8dJauiwkAFHmMsMjFLX7L01BHk="),
+            "bob": KeyPair("quGBP8awD/J3hjSvwGD/sZRcMDks8DPz9Vw0HD4+zecqJP0ojBoc4wQtyq08ywxUksTkdz0/rQNkOsEZBwqWTw==",
+                           "KiT9KIwaHOMELcqtPMsMVJLE5Hc9P60DZDrBGQcKlk8="),
+        }
