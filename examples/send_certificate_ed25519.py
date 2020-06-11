@@ -5,46 +5,47 @@ This source code is licensed under the Apache 2.0 license found in the
 LICENSE file in the root directory of this source tree.
 """
 
+from examples.common.log import println_json
+from examples.common.settings import Settings
+from katena_chain_sdk_py.entity.api.tx_result import SendTxResultSchema
 from katena_chain_sdk_py.exceptions.api_exception import ApiException
 from katena_chain_sdk_py.exceptions.client_exception import ClientException
 from katena_chain_sdk_py.transactor import Transactor
+from katena_chain_sdk_py.entity.tx_signer import TxSigner
+from katena_chain_sdk_py.utils.common import concat_fqid
 from katena_chain_sdk_py.utils.crypto import create_private_key_ed25519_from_base64
-from examples.common.settings import Settings
 
 
 def main():
-    # Alice wants to send an ed25519 certificate to Katena with David's off-chain data signature inside.
-
-    # Load yaml configuration file
-    settings = Settings('settings.yml')
+    # Alice wants to certify an ed25519 signature of an off-chain data
 
     # Common Katena network information
-    api_url = settings.blockchain.api_url
-    chain_id = settings.blockchain.chain_id
+    api_url = Settings.api_url
+    chain_id = Settings.chain_id
 
     # Alice Katena network information
-    company_bcid = settings.on_chain.company.bcid
-    alice_sign_private_key = create_private_key_ed25519_from_base64(
-        settings.on_chain.company.ed25519_keys.alice.private_key)
+    alice_company_bcid = Settings.Company.bcid
+    alice_sign_key_info = Settings.Company.ed25519_keys['alice']
+    alice_sign_private_key = create_private_key_ed25519_from_base64(alice_sign_key_info.private_key_str)
+    alice_sign_key_id = alice_sign_key_info.id
 
-    # David off chain information
-    david_sign_private_key = create_private_key_ed25519_from_base64(settings.off_chain.ed25519_keys.david.private_key)
+    # Create Katena API helpers
+    tx_signer = TxSigner(concat_fqid(alice_company_bcid, alice_sign_key_id), alice_sign_private_key)
+    transactor = Transactor(api_url, chain_id, tx_signer)
 
     # Off-chain information Alice wants to send
-    certificate_uuid = settings.on_chain.tx.uuid
-    data_signature = david_sign_private_key.sign("Off-chain data to sign from py".encode("utf-8"))
-
-    # Create a Katena API helper
-    transactor = Transactor(api_url, chain_id, company_bcid, alice_sign_private_key)
+    certificate_id = Settings.certificate_id
+    david_sign_key_info = Settings.OffChain.ed25519_keys['david']
+    david_sign_private_key = create_private_key_ed25519_from_base64(david_sign_key_info.private_key_str)
+    data_signature = david_sign_private_key.sign("off_chain_data_to_sign_from_py".encode("utf-8"))
 
     try:
-        # Send a certificate ed25519, version 1, to Katena
-        tx_status = transactor.send_certificate_ed25519_v1(certificate_uuid, alice_sign_private_key.get_public_key(),
-                                                           data_signature)
+        # Send a version 1 of a certificate ed25519 on Katena
+        tx_result = transactor.send_certificate_ed25519_v1_tx(certificate_id, alice_sign_private_key.get_public_key(),
+                                                              data_signature)
 
-        print("Transaction status")
-        print("  Code    : {}".format(tx_status.get_code()))
-        print("  Message : {}".format(tx_status.get_message()))
+        print("Result :")
+        println_json(tx_result, SendTxResultSchema)
     except (ApiException, ClientException) as e:
         print(e)
 

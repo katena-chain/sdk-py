@@ -21,6 +21,7 @@ setup(
         "License :: OSI Approved :: Apache Software License",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.8",
     ],
     packages=find_packages(),
     install_requires=['requests==2.22.0', 'pynacl==1.3.0', 'marshmallow==3.2.1'],
