@@ -12,7 +12,11 @@ class TxData(abc.ABC):
     # TxData interface defines the methods a concrete TxData must implement.
 
     @abc.abstractmethod
-    def get_id(self) -> str:
+    def get_namespace(self) -> str:
+        pass
+
+    @abc.abstractmethod
+    def get_state_ids(self, signer_company_bcid: str) -> str:
         pass
 
     @abc.abstractmethod

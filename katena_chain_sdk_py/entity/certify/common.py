@@ -13,21 +13,21 @@ TYPE_SECRET = "secret"
 TYPE_NACL_BOX = "nacl_box"
 
 
-def get_category_certificate() -> str:
+def get_certificate_id_key() -> str:
     return "{}.{}".format(NAMESPACE, TYPE_CERTIFICATE)
 
 
-def get_type_certificate_raw_v1() -> str:
-    return "{}.{}.{}".format(get_category_certificate(), TYPE_RAW, "v1")
+def get_certificate_raw_v1_type() -> str:
+    return "{}.{}.{}".format(get_certificate_id_key(), TYPE_RAW, "v1")
 
 
-def get_type_certificate_ed25519_v1() -> str:
-    return "{}.{}.{}".format(get_category_certificate(), TYPE_ED25519, "v1")
+def get_certificate_ed25519_v1_type() -> str:
+    return "{}.{}.{}".format(get_certificate_id_key(), TYPE_ED25519, "v1")
 
 
-def get_category_secret() -> str:
+def get_secret_id_key() -> str:
     return "{}.{}".format(NAMESPACE, TYPE_SECRET)
 
 
-def get_type_secret_nacl_box_v1() -> str:
-    return "{}.{}.{}".format(get_category_secret(), TYPE_NACL_BOX, "v1")
+def get_secret_nacl_box_v1_type() -> str:
+    return "{}.{}.{}".format(get_secret_id_key(), TYPE_NACL_BOX, "v1")

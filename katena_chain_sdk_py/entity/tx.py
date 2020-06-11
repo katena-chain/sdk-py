@@ -12,17 +12,15 @@ from katena_chain_sdk_py.serializer.base_schema import BaseSchema
 from katena_chain_sdk_py.serializer.utc_datetime_field import UTCDatetimeField
 from datetime import datetime
 from katena_chain_sdk_py.entity.tx_data_interface import TxData
-from katena_chain_sdk_py.crypto.ed25519.public_key import PublicKey
-from katena_chain_sdk_py.crypto.base_key import KeyField
 
 
 class Tx:
     # Tx wraps a tx data with its signature information and a nonce time to avoid replay attacks.
 
-    def __init__(self, nonce_time: datetime, data: TxData, signer: PublicKey, signature: bytes):
+    def __init__(self, nonce_time: datetime, data: TxData, signer_fqid: str, signature: bytes):
         self.nonce_time = nonce_time
         self.data = data
-        self.signer = signer
+        self.signer_fqid = signer_fqid
         self.signature = signature
 
     def get_nonce_time(self) -> datetime:
@@ -31,8 +29,8 @@ class Tx:
     def get_data(self) -> TxData:
         return self.data
 
-    def get_signer(self) -> PublicKey:
-        return self.signer
+    def get_signer_fqid(self) -> str:
+        return self.signer_fqid
 
     def get_signature(self) -> bytes:
         return self.signature
@@ -42,7 +40,7 @@ class TxSchema(BaseSchema):
     # TxSchema allows to serialize and deserialize Tx.
 
     __model__ = Tx
-    signer = KeyField(PublicKey)
+    signer_fqid = fields.Str()
     signature = BytesField()
     data = fields.Nested(TxDataSchema)
     nonce_time = UTCDatetimeField()

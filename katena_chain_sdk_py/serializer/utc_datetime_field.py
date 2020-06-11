@@ -6,7 +6,7 @@ LICENSE file in the root directory of this source tree.
 """
 
 from marshmallow import fields
-from datetime import datetime
+from datetime import datetime, timezone
 
 RFC3339_MICRO_ZERO_PADDED = "%Y-%m-%dT%H:%M:%S.%fZ"
 
@@ -17,7 +17,7 @@ class UTCDatetimeField(fields.Field):
     def _serialize(self, value: datetime, attr, obj, **kwargs) -> str:
         if value is None:
             return ""
-        return value.strftime(RFC3339_MICRO_ZERO_PADDED)
+        return value.astimezone(timezone.utc).strftime(RFC3339_MICRO_ZERO_PADDED)
 
     def _deserialize(self, value: str, attr, data, **kwargs) -> datetime:
-        return datetime.strptime(value, RFC3339_MICRO_ZERO_PADDED)
+        return datetime.strptime(value, RFC3339_MICRO_ZERO_PADDED).replace(tzinfo=timezone.utc)

@@ -15,12 +15,12 @@ def get_pagination_query_params(page, per_page: int) -> dict:
     return {PAGE_PARAM: page, PER_PAGE_PARAM: per_page}
 
 
-def format_txid(company_bcid: str, uuid: str) -> str:
-    # Concatenates a company bcid and a uuid into a txid.
-    return "{}-{}".format(company_bcid, uuid)
-
-
 def get_uri(base_path: str, paths: []) -> str:
     # Joins the base path and paths array and adds the query values to return a new uri.
     items = [base_path, *paths]
     return "/".join([(u.strip("/") if index + 1 < len(items) else u.lstrip("/")) for index, u in enumerate(items)])
+
+
+def concat_fqid(company_id: str, id: str) -> str:
+    # Concatenates a company bcid and a uuid into a fully qualified id.
+    return "{}-{}".format(company_id, id)
