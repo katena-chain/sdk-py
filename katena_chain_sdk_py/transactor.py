@@ -96,6 +96,14 @@ class Transactor:
         # Fetches the API and return any tx by its hash.
         return self.api_handler.retrieve_tx(hash)
 
+    def retrieve_certificate(self, company_id, id: str) -> TxData:
+        # Fetches the API and returns a certificate from the state.
+        return self.api_handler.retrieve_certificate(concat_fqid(company_id, id))
+
+    def retrieve_secret(self, company_id, id: str) -> TxData:
+        # Fetches the API and returns a secret from the state.
+        return self.api_handler.retrieve_secret(concat_fqid(company_id, id))
+
     def retrieve_key(self, company_id, id: str) -> KeyV1:
         # Fetches the API and returns a key from the state.
         return self.api_handler.retrieve_key(concat_fqid(company_id, id))

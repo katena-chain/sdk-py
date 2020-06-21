@@ -7,6 +7,7 @@ LICENSE file in the root directory of this source tree.
 
 from examples.common.log import println_json
 from examples.common.settings import Settings
+from katena_chain_sdk_py.entity.tx_data import TxDataSchema
 from katena_chain_sdk_py.exceptions.api_exception import ApiException
 from katena_chain_sdk_py.exceptions.client_exception import ClientException
 from katena_chain_sdk_py.transactor import Transactor
@@ -40,6 +41,12 @@ def main():
 
         print("Last tx :")
         println_json(tx_result, TxResultSchema)
+
+        # Retrieve the last state of a certificate with that fqid
+        certificate = transactor.retrieve_certificate(alice_company_bcid, certificate_id)
+
+        print("Certificate :")
+        println_json(certificate, TxDataSchema)
     except (ApiException, ClientException) as e:
         print(e)
 

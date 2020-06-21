@@ -6,6 +6,7 @@ LICENSE file in the root directory of this source tree.
 """
 
 from examples.common.log import println_json
+from katena_chain_sdk_py.entity.tx_data import TxDataSchema
 from katena_chain_sdk_py.exceptions.api_exception import ApiException
 from katena_chain_sdk_py.exceptions.client_exception import ClientException
 from katena_chain_sdk_py.transactor import Transactor
@@ -46,18 +47,23 @@ def main():
         print("Last tx :")
         println_json(tx_result, TxResultSchema)
 
-        tx_data = tx_result.get_tx().get_data()
+        # Retrieve the last state of a secret with that fqid
+        secret = transactor.retrieve_secret(alice_company_bcid, secret_id)
+
+        print("Secret :")
+        println_json(secret, TxDataSchema)
+
         # Bob will use its private key and the sender's public key (needs to be Alice's) to decrypt a message
         decrypted_content = bob_crypt_private_key.open(
-            tx_data.get_content(),
-            tx_data.get_sender(),
-            tx_data.get_nonce()
+            secret.get_content(),
+            secret.get_sender(),
+            secret.get_nonce()
         ).decode("utf-8")
 
         if decrypted_content == "":
             decrypted_content = "Unable to decrypt"
 
-        print("Decrypted content for last Tx : {}".format(decrypted_content))
+        print("Decrypted content : {}".format(decrypted_content))
     except (ApiException, ClientException) as e:
         print(e)
 

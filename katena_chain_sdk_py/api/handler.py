@@ -14,6 +14,7 @@ from katena_chain_sdk_py.entity.api.tx_result import TxResult, TxResultSchema
 from katena_chain_sdk_py.entity.api.tx_result import TxResults, TxResultsSchema
 from katena_chain_sdk_py.entity.api.tx_result import SendTxResultSchema
 from katena_chain_sdk_py.entity.tx import Tx, TxSchema
+from katena_chain_sdk_py.entity.tx_data import TxDataSchema
 from katena_chain_sdk_py.entity.tx_signer import TxSigner
 from katena_chain_sdk_py.entity.tx_data_interface import TxData
 from katena_chain_sdk_py.entity.tx_data_state import TxDataState, TxDataStateSchema
@@ -28,7 +29,7 @@ class Handler:
     STATE_PATH = "state"
     TXS_PATH = "txs"
     CERTIFICATES_PATH = "certificates"
-    SECRET_PATH = "secrets"
+    SECRETS_PATH = "secrets"
     COMPANIES_PATH = "companies"
     KEYS_PATH = "keys"
 
@@ -40,6 +41,7 @@ class Handler:
         self.tx_results_schema = TxResultsSchema()
         self.api_exception_schema = ApiExceptionSchema()
         self.key_v1_schema = KeyV1Schema()
+        self.tx_data_schema = TxDataSchema()
         self.tx_data_state_schema = TxDataStateSchema()
 
     def retrieve_certificate_txs(self, fqid: str, page, tx_per_page: int) -> TxResults:
@@ -64,7 +66,7 @@ class Handler:
     def retrieve_secret_txs(self, fqid: str, page, tx_per_page: int) -> TxResults:
         # Fetches the API to return all txs related to a secret fqid.
         query_params = get_pagination_query_params(page, tx_per_page)
-        response = self.api_client.get("{}/{}".format(self.SECRET_PATH, fqid), query_params)
+        response = self.api_client.get("{}/{}".format(self.SECRETS_PATH, fqid), query_params)
         json_body = response.get_body().decode("utf-8")
         if response.get_status_code() == HTTPStatus.OK:
             return self.tx_results_schema.loads(json_body)
@@ -73,7 +75,7 @@ class Handler:
 
     def retrieve_last_secret_tx(self, fqid: str) -> TxResult:
         # Fetches the API to return the last tx related to a secret fqid.
-        response = self.api_client.get("{}/{}/{}".format(self.SECRET_PATH, fqid, self.LAST_PATH))
+        response = self.api_client.get("{}/{}/{}".format(self.SECRETS_PATH, fqid, self.LAST_PATH))
         json_body = response.get_body().decode("utf-8")
         if response.get_status_code() == HTTPStatus.OK:
             return self.tx_result_schema.loads(json_body)
@@ -105,6 +107,24 @@ class Handler:
         json_body = response.get_body().decode("utf-8")
         if response.get_status_code() == HTTPStatus.OK:
             return self.tx_result_schema.loads(json_body)
+        else:
+            raise self.api_exception_schema.loads(json_body, unknown="EXCLUDE")
+
+    def retrieve_certificate(self, fqid: str) -> TxData:
+        # Fetches the API and returns a certificate from the state.
+        response = self.api_client.get("{}/{}/{}".format(self.STATE_PATH, self.CERTIFICATES_PATH, fqid))
+        json_body = response.get_body().decode("utf-8")
+        if response.get_status_code() == HTTPStatus.OK:
+            return self.tx_data_schema.loads(json_body)
+        else:
+            raise self.api_exception_schema.loads(json_body, unknown="EXCLUDE")
+
+    def retrieve_secret(self, fqid: str) -> TxData:
+        # Fetches the API and returns a secret from the state.
+        response = self.api_client.get("{}/{}/{}".format(self.STATE_PATH, self.SECRETS_PATH, fqid))
+        json_body = response.get_body().decode("utf-8")
+        if response.get_status_code() == HTTPStatus.OK:
+            return self.tx_data_schema.loads(json_body)
         else:
             raise self.api_exception_schema.loads(json_body, unknown="EXCLUDE")
 
