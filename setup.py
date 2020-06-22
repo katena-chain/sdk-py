@@ -9,7 +9,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="katena_chain_sdk_py",
-    version="1.2.0",
+    version="1.2.1",
     description="A SDK client for Katena Chain by Transchain",
     long_description=README,
     long_description_content_type="text/markdown",
