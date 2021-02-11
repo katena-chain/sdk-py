@@ -41,7 +41,7 @@ def main():
 
     try:
         # Send a version 1 of a certificate ed25519 on Katena
-        tx_result = transactor.send_certificate_ed25519_v1_tx(certificate_id, alice_sign_private_key.get_public_key(),
+        tx_result = transactor.send_certificate_ed25519_v1_tx(certificate_id, david_sign_private_key.get_public_key(),
                                                               data_signature)
 
         print("Result :")
