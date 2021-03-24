@@ -47,7 +47,7 @@ class Handler:
     def retrieve_certificate_txs(self, fqid: str, page, tx_per_page: int) -> TxResults:
         # Fetches the API to return all txs related to a certificate fqid.
         query_params = get_pagination_query_params(page, tx_per_page)
-        response = self.api_client.get("{}/{}".format(self.CERTIFICATES_PATH, fqid), query_params)
+        response = self.api_client.get("{}/{}/{}".format(self.TXS_PATH, self.CERTIFICATES_PATH, fqid), query_params)
         json_body = response.get_body().decode("utf-8")
         if response.get_status_code() == HTTPStatus.OK:
             return self.tx_results_schema.loads(json_body)
@@ -56,7 +56,7 @@ class Handler:
 
     def retrieve_last_certificate_tx(self, fqid: str) -> TxResult:
         # Fetches the API to return the last tx related to a certificate fqid.
-        response = self.api_client.get("{}/{}/{}".format(self.CERTIFICATES_PATH, fqid, self.LAST_PATH))
+        response = self.api_client.get("{}/{}/{}/{}".format(self.TXS_PATH, self.CERTIFICATES_PATH, fqid, self.LAST_PATH))
         json_body = response.get_body().decode("utf-8")
         if response.get_status_code() == HTTPStatus.OK:
             return self.tx_result_schema.loads(json_body)
@@ -66,7 +66,7 @@ class Handler:
     def retrieve_secret_txs(self, fqid: str, page, tx_per_page: int) -> TxResults:
         # Fetches the API to return all txs related to a secret fqid.
         query_params = get_pagination_query_params(page, tx_per_page)
-        response = self.api_client.get("{}/{}".format(self.SECRETS_PATH, fqid), query_params)
+        response = self.api_client.get("{}/{}/{}".format(self.TXS_PATH, self.SECRETS_PATH, fqid), query_params)
         json_body = response.get_body().decode("utf-8")
         if response.get_status_code() == HTTPStatus.OK:
             return self.tx_results_schema.loads(json_body)
@@ -75,7 +75,7 @@ class Handler:
 
     def retrieve_last_secret_tx(self, fqid: str) -> TxResult:
         # Fetches the API to return the last tx related to a secret fqid.
-        response = self.api_client.get("{}/{}/{}".format(self.SECRETS_PATH, fqid, self.LAST_PATH))
+        response = self.api_client.get("{}/{}/{}/{}".format(self.TXS_PATH, self.SECRETS_PATH, fqid, self.LAST_PATH))
         json_body = response.get_body().decode("utf-8")
         if response.get_status_code() == HTTPStatus.OK:
             return self.tx_result_schema.loads(json_body)
@@ -85,7 +85,7 @@ class Handler:
     def retrieve_key_txs(self, fqid: str, page, tx_per_page: int) -> TxResults:
         # Fetches the API to return all txs related to a key fqid.
         query_params = get_pagination_query_params(page, tx_per_page)
-        response = self.api_client.get("{}/{}".format(self.KEYS_PATH, fqid), query_params)
+        response = self.api_client.get("{}/{}/{}".format(self.TXS_PATH, self.KEYS_PATH, fqid), query_params)
         json_body = response.get_body().decode("utf-8")
         if response.get_status_code() == HTTPStatus.OK:
             return self.tx_results_schema.loads(json_body)
@@ -94,7 +94,7 @@ class Handler:
 
     def retrieve_last_key_tx(self, fqid: str) -> TxResult:
         # Fetches the API to return the last tx related to a key fqid.
-        response = self.api_client.get("{}/{}/{}".format(self.KEYS_PATH, fqid, self.LAST_PATH))
+        response = self.api_client.get("{}/{}/{}/{}".format(self.TXS_PATH, self.KEYS_PATH, fqid, self.LAST_PATH))
         json_body = response.get_body().decode("utf-8")
         if response.get_status_code() == HTTPStatus.OK:
             return self.tx_result_schema.loads(json_body)
