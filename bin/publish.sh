@@ -3,8 +3,8 @@
 PROJECT_PATH=$(dirname $(cd $(dirname $0) && pwd))
 
 cd ${PROJECT_PATH}
-pip install twine
-python setup.py sdist bdist_wheel
+pip3 install twine
+python3 setup.py sdist bdist_wheel
 twine upload dist/*
 rm -rf ${PROJECT_PATH}/.eggs
 rm -rf ${PROJECT_PATH}/build
