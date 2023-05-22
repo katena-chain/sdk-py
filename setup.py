@@ -24,7 +24,7 @@ setup(
         "Programming Language :: Python :: 3.8",
     ],
     packages=find_packages(),
-    install_requires=['requests==2.22.0', 'pynacl==1.3.0', 'marshmallow==3.2.1'],
+    install_requires=['requests==2.31.0', 'pynacl==1.3.0', 'marshmallow==3.2.1'],
     setup_requires=['wheel'],
     include_package_data=True,
 )
